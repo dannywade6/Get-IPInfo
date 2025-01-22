@@ -1,4 +1,4 @@
-$Data = Import-CSV -Path .\Personal\Security\user_logs.csv
+ $Data = Import-CSV -Path C:\Temp\Get-MaliciousIPAddress\user_logs.csv
 
 function Get-IPAddressGeoLocation {
     param (
@@ -9,23 +9,6 @@ function Get-IPAddressGeoLocation {
     $parsedData = $jsonData.Content | ConvertFrom-Json
     $Country = $parsedData.Country
     return $Country
-}
-
-function Get-MaliciousIPAddress {
-    param (
-        [String]$Country
-    )
-
-    $addressIsMalicious = $false
-    $addressCheck = Get-IPAddressGeoLocation -IPAddress $Country
-
-    If ($addressCheck -eq "China" -or "Russia" -or "North Korea") {
-        $addressIsMalicious = $true
-    } Else {
-        $addressIsMalicious = $false
-    }
-
-    return $addressIsMalicious
 }
 
 ForEach($user in $data[200..220]) {
@@ -39,6 +22,6 @@ ForEach($user in $data[200..220]) {
             Username = $user.user_name
         }
     
-        $outputObject | Export-CSV -Path "C:\Dev\Scripts\Powershell\Personal\Security\IPLocations.csv" -Append -NoTypeInformation
+        $outputObject | Export-CSV -Path "C:\temp\Get-MaliciousIPAddress\IPLocations.csv" -Append -NoTypeInformation
     }
-}
+} 
